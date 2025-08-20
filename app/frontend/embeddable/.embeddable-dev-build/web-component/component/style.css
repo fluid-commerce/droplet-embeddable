@@ -1,0 +1,13 @@
+@import '~@embeddable.com/vanilla-components/dist/vanilla-components.css';
+
+:host {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+  
+.container {
+    height: 100%;
+    width: 100%;
+    max-width: unset;
+}

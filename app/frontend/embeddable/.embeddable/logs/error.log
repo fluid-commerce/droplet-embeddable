@@ -1,0 +1,19 @@
+
+[2025-08-20T21:26:42.326Z] Command: push
+Breadcrumbs: checkNodeVersion > push by standard login > select workspace > build archive > send build
+Error: AxiosError: Request failed with status code 504
+AxiosError: Request failed with status code 504
+    at settle (file:///Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/axios/lib/core/settle.js:19:12)
+    at IncomingMessage.handleStreamEnd (file:///Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/axios/lib/adapters/http.js:599:11)
+    at IncomingMessage.emit (node:events:519:35)
+    at endReadableNT (node:internal/streams/readable:1696:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+    at Axios.request (file:///Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/axios/lib/core/Axios.js:45:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async sendBuild (/Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/@embeddable.com/sdk-core/src/push.ts:330:3)
+    at async push (/Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/@embeddable.com/sdk-core/src/push.ts:92:5)
+    at async main (file:///Users/christophercarlson/fluid/droplet-embeddable/app/frontend/embeddable/node_modules/@embeddable.com/sdk-core/loader/entryPoint.js:36:3)
+OS: darwin
+Node: v23.11.0
+SDK Versions: {}
+----------------------------------------

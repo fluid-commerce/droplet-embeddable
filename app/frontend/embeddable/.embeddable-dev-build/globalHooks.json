@@ -1,0 +1,6 @@
+{
+  "themeProvider": "embeddable-theme.js",
+  "lifecycleHooks": [
+    "embeddable-lifecycle-9c355.js"
+  ]
+}
