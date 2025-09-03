@@ -17,9 +17,9 @@ cubes:
       - name: company_id
         type: number
         sql: company_id
-      - name: role
+      - name: roles
         type: string
-        sql: role
+        sql: roles
       - name: active
         type: boolean
         sql: active

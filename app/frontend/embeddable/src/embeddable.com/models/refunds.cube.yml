@@ -37,6 +37,14 @@ cubes:
     measures:
       - name: count
         type: count
+      - name: total_amount
+        type: sum
+        sql: amount
+        format: currency
+      - name: average_amount
+        type: avg
+        sql: amount
+        format: currency
 
     joins:
       - name: orders

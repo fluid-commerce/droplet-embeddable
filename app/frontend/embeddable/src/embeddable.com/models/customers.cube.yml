@@ -29,6 +29,12 @@ cubes:
       - name: full_name
         type: string
         sql: "CONCAT(first_name, ' ', last_name)"
+      - name: first_name
+        type: string
+        sql: first_name
+      - name: last_name
+        type: string
+        sql: last_name
       - name: total_spent_in_base
         type: number
         sql: total_spent_in_base
