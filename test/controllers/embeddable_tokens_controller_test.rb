@@ -10,10 +10,10 @@ describe EmbeddableTokensController do
 
     EmbeddableTokenService.stub :new, mock_service do
       post embeddable_tokens_url, params: {
-        embeddable_id: "test-embeddable",
-        expires_in: 7200,
-        user: "test_user",
-        environment: "production",
+        embeddable_id:    "test-embeddable",
+        expires_in:       7200,
+        user:             "test_user",
+        environment:      "production",
         security_context: { role: "admin" },
       }
     end
@@ -75,13 +75,13 @@ describe EmbeddableTokensController do
 
     EmbeddableTokenService.stub :new, mock_service do
       post embeddable_tokens_url, params: {
-        embeddable_id: "filtered-embeddable",
-        expires_in: 3600,
-        user: "test_user",
-        environment: "test",
-        security_context: { role: "user" },
+        embeddable_id:     "filtered-embeddable",
+        expires_in:        3600,
+        user:              "test_user",
+        environment:       "test",
+        security_context:  { role: "user" },
         # These should be filtered out
-        malicious_param: "should_not_be_passed",
+        malicious_param:   "should_not_be_passed",
         another_bad_param: "also_filtered",
       }
     end

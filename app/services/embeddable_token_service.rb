@@ -7,7 +7,7 @@ class EmbeddableTokenService
 
   def initialize(company, params)
     self.company = company
-    self.params = params
+    self.params  = params
   end
 
   def generate_token
