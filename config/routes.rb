@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   post "webhook", to: "webhooks#create", as: :webhook
+  post "embeddable_tokens", to: "embeddable_tokens#create", as: :embeddable_tokens
 
   namespace :admin do
     get "dashboard/index"

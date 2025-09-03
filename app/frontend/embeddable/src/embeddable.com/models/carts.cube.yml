@@ -38,6 +38,12 @@ cubes:
       - name: full_name
         type: string
         sql: full_name
+      - name: first_name
+        type: string
+        sql: first_name
+      - name: last_name
+        type: string
+        sql: last_name
       - name: affiliate_id
         type: number
         sql: affiliate_id

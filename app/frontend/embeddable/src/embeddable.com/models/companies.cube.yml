@@ -43,7 +43,7 @@ cubes:
         sql: "{CUBE}.id = {shares}.company_id"
         relationship: one_to_many
       - name: customers
-        sql: "{CUBE}.id = {fluid_customers}.company_id"
+        sql: "{CUBE}.id = {customers}.company_id"
         relationship: one_to_many
       - name: carts
         sql: "{CUBE}.id = {carts}.company_id"

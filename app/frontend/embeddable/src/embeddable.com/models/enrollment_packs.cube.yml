@@ -20,9 +20,9 @@ cubes:
       - name: company_id
         type: number
         sql: company_id
-      - name: name
+      - name: title
         type: string
-        sql: name
+        sql: title
       - name: description
         type: string
         sql: description
