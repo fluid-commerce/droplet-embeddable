@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   post "webhook", to: "webhooks#create", as: :webhook
   post "embeddable_tokens", to: "embeddable_tokens#create", as: :embeddable_tokens
 
+  # Embeddable dashboard route - show only
+  get "embeddable/:id", to: "embeddable#show", as: :embeddable
+
   namespace :admin do
     get "dashboard/index"
     resource :droplet, only: %i[ create update ]

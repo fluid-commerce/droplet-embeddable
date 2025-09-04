@@ -1,0 +1,45 @@
+<% content_for :head do %>
+  <script 
+    type="module"
+    src="https://embed.embeddable.com/js/v1/?region=us">
+  </script>
+<% end %>
+
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+    <p class="text-gray-600">Embedded analytics dashboard powered by Embeddable</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <div id="embeddable-container" class="min-h-[600px]">
+      <em-beddable
+        id="dashboard-embed"
+        <%# token="<%= @embeddable_token %>" %>
+        token="eyJhbGciOiJIUzI1NiJ9.eyJzZWN1cml0eVRva2VuSWQiOiI1YzdjZmIzNy1hZDY4LTRhNzMtYTAzZi0yYzMwNzQ1MDhiYjgiLCJpYXQiOjE3NTY5MzY0OTksImV4cCI6MTc1Njk0MDA5OX0.s4a4-hBQmQrTKWvdeJ6-bMg6a92JfRpk9iAKJYFbiBM"
+        style="width: 100%; height: 600px;"
+      ></em-beddable>
+    </div>
+  </div>
+
+  <div class="mt-6 text-sm text-gray-500">
+    <p>Dashboard loaded via Embeddable web component</p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const embeddableElement = document.getElementById('dashboard-embed');
+
+    if (embeddableElement) {
+      // Add any custom event listeners or configuration here
+      embeddableElement.addEventListener('loaded', function(event) {
+        console.log('Embeddable dashboard loaded successfully');
+      });
+
+      embeddableElement.addEventListener('error', function(event) {
+        console.error('Error loading Embeddable dashboard:', event.detail);
+      });
+    }
+  });
+</script>
