@@ -28,7 +28,7 @@ private
     {
       embeddable_id: params[:id],
       expires_in: 1.hour,
-      user: nil, # No user required for public access
+      user: current_user,
       environment: Rails.env,
     }
   end
