@@ -1,6 +1,23 @@
 # frozen_string_literal: true
 
 class EmbeddableController < ApplicationController
+  # GET /embeddable/new
+  def new
+    @embeddable = Embeddable.new
+  end
+
+  # POST /embeddable
+  def create
+    @embeddable = Embeddable.new(embeddable_params)
+    @embeddable.company = current_company
+
+    if @embeddable.save
+      redirect_to embeddable_path(@embeddable.embeddable_id), notice: "Dashboard was successfully created."
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   # GET /embeddable/:embeddable_id
   def show
     @embeddable       = Embeddable.find_by!(embeddable_id: params[:embeddable_id])
@@ -19,6 +36,10 @@ private
     nil
   end
 
+  def current_company
+    @current_company ||= Company.active.first
+  end
+
   def token_params
     {
       embeddable_id: @embeddable.embeddable_id,
@@ -26,5 +47,9 @@ private
       user:          current_user,
       environment:   Rails.env,
     }
+  end
+
+  def embeddable_params
+    params.require(:embeddable).permit(:embeddable_id, :name, :description, :configuration, :default)
   end
 end

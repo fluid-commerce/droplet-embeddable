@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   post "webhook", to: "webhooks#create", as: :webhook
   post "embeddable_tokens", to: "embeddable_tokens#create", as: :embeddable_tokens
 
-  # Embeddable dashboard route - show only
+  # Embeddable dashboard routes
+  get "embeddable/new", to: "embeddable#new", as: :new_embeddable
+  post "embeddable", to: "embeddable#create", as: :embeddables
   get "embeddable/:embeddable_id", to: "embeddable#show", as: :embeddable
 
   namespace :admin do
