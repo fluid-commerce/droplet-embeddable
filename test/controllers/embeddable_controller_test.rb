@@ -7,7 +7,7 @@ class EmbeddableControllerTest < ActionDispatch::IntegrationTest
 
   setup do
     @user = users(:admin)
-    @company = companies(:one)
+    @company = companies(:acme)
   end
 
   test "should get show without authentication" do

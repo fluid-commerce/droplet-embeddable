@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+analytics_dashboard:
+  embeddable_id: analytics-dashboard-2024
+  name: Analytics Dashboard
+  description: Main analytics dashboard with key metrics
+  configuration: {"theme": "light", "refreshInterval": 300, "autoRefresh": true}
+  default: true
+  company: acme
+
+sales_report:
+  embeddable_id: sales-report-q3
+  name: Sales Report Q3
+  description: Quarterly sales performance report
+  configuration: {"theme": "dark", "refreshInterval": 600, "height": "800px"}
+  default: false
+  company: acme
+
+test_dashboard:
+  embeddable_id: test-dashboard-id
+  name: Test Dashboard
+  description: Test dashboard for development
+  configuration: {"theme": "light", "showHeader": false}
+  default: false
+  company: acme

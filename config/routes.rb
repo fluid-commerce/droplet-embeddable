@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   post "embeddable_tokens", to: "embeddable_tokens#create", as: :embeddable_tokens
 
   # Embeddable dashboard route - show only
-  get "embeddable/:id", to: "embeddable#show", as: :embeddable
+  get "embeddable/:embeddable_id", to: "embeddable#show", as: :embeddable
 
   namespace :admin do
     get "dashboard/index"

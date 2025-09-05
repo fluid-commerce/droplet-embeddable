@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_11_182801) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_04_143225) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -44,6 +44,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_11_182801) do
     t.index ["company_droplet_uuid"], name: "index_companies_on_company_droplet_uuid"
     t.index ["fluid_company_id"], name: "index_companies_on_fluid_company_id"
     t.index ["fluid_shop"], name: "index_companies_on_fluid_shop"
+  end
+
+  create_table "embeddables", force: :cascade do |t|
+    t.string "embeddable_id", null: false
+    t.string "name", null: false
+    t.text "description", default: "", null: false
+    t.jsonb "configuration", default: {}, null: false
+    t.boolean "default", default: false, null: false
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_embeddables_on_company_id"
+    t.index ["configuration"], name: "index_embeddables_on_configuration", using: :gin
+    t.index ["embeddable_id"], name: "index_embeddables_on_embeddable_id", unique: true
+    t.index ["name"], name: "index_embeddables_on_name"
   end
 
   create_table "events", force: :cascade do |t|
@@ -101,6 +116,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_11_182801) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "embeddables", "companies"
   add_foreign_key "events", "companies"
   add_foreign_key "integration_settings", "companies"
 end
