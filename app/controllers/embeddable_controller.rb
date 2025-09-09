@@ -9,7 +9,6 @@ class EmbeddableController < ApplicationController
   # POST /embeddable
   def create
     @embeddable = Embeddable.new(embeddable_params)
-    @embeddable.company = current_company
 
     if @embeddable.save
       redirect_to embeddable_path(@embeddable.embeddable_id), notice: "Dashboard was successfully created."
@@ -29,7 +28,7 @@ class EmbeddableController < ApplicationController
 private
 
   def generate_embeddable_token
-    token_service = EmbeddableTokenService.new(@embeddable.company, token_params)
+    token_service = EmbeddableTokenService.new(current_company, token_params)
     token_service.generate_token
   rescue => e
     Rails.logger.error "Failed to generate embeddable token: #{e.message}"

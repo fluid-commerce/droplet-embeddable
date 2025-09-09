@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 class Embeddable < ApplicationRecord
-  belongs_to :company
-
   validates :embeddable_id, presence: true, uniqueness: true
   validates :name, presence: true
 
   scope :active, -> { where(active: true) }
-  scope :by_company, ->(company) { where(company: company) }
   scope :default, -> { where(default: true) }
 
   # JSONB configuration helpers

@@ -6,7 +6,6 @@ analytics_dashboard:
   description: Main analytics dashboard with key metrics
   configuration: {"theme": "light", "refreshInterval": 300, "autoRefresh": true}
   default: true
-  company: acme
 
 sales_report:
   embeddable_id: sales-report-q3
@@ -14,7 +13,6 @@ sales_report:
   description: Quarterly sales performance report
   configuration: {"theme": "dark", "refreshInterval": 600, "height": "800px"}
   default: false
-  company: acme
 
 test_dashboard:
   embeddable_id: test-dashboard-id
@@ -22,4 +20,3 @@ test_dashboard:
   description: Test dashboard for development
   configuration: {"theme": "light", "showHeader": false}
   default: false
-  company: acme
