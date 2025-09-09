@@ -3,7 +3,12 @@ cubes:
     data_source: fluid-replica
     sql: >
       SELECT * FROM public.orders
+      {% if COMPILE_CONTEXT.securityContext.company_id %}
       WHERE company_id = { COMPILE_CONTEXT.securityContext.company_id }
+      {% elif COMPILE_CONTEXT.securityContext.rep_id %}
+      WHERE user_company_id = { COMPILE_CONTEXT.securityContext.rep_id }
+      {% else %}
+      {% endif %}
 
     dimensions:
       - name: id

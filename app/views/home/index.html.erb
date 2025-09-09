@@ -1,7 +1,12 @@
 <% content_for :head do %>
   <%= vite_typescript_tag 'home.tsx' %>
 <% end %>
-<header class="p-2 flex justify-end">
-  <%= link_to "Sign in", new_user_session_path %>
+<header class="p-2 flex justify-between items-center">
+  <div>
+    <%= link_to "New Dashboard", new_embeddable_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+  </div>
+  <div>
+    <%= link_to "Sign in", new_user_session_path %>
+  </div>
 </header>
 <div id="root"></div>

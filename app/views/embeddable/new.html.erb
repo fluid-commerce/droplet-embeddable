@@ -1,0 +1,67 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">New Embeddable Dashboard</h1>
+    <p class="text-gray-600">Configure a new embedded analytics dashboard</p>
+  </div>
+
+  <div class="bg-white rounded-lg shadow-lg p-6">
+    <%= form_with model: @embeddable, url: embeddables_path, local: true, class: "space-y-6" do |form| %>
+      <% if @embeddable&.errors.any? %>
+        <div class="bg-red-50 border border-red-200 rounded-md p-4">
+          <div class="text-sm text-red-800">
+            <h3 class="font-medium">Please fix the following errors:</h3>
+            <ul class="mt-2 list-disc list-inside">
+              <% @embeddable.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
+      <div>
+        <%= form.label :embeddable_id, "Embeddable ID", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :embeddable_id, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500", placeholder: "e.g., analytics-dashboard-2024" %>
+        <p class="mt-1 text-sm text-gray-500">The unique ID of your published Embeddable dashboard</p>
+      </div>
+
+      <div>
+        <%= form.label :name, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500", placeholder: "e.g., Analytics Dashboard" %>
+        <p class="mt-1 text-sm text-gray-500">A friendly name for this dashboard</p>
+      </div>
+
+      <div>
+        <%= form.label :description, class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_area :description, rows: 3, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500", placeholder: "Brief description of this dashboard..." %>
+        <p class="mt-1 text-sm text-gray-500">Optional description of what this dashboard shows</p>
+      </div>
+
+      <div>
+        <%= form.label :configuration, "Configuration (JSON)", class: "block text-sm font-medium text-gray-700 mb-2" %>
+        <%= form.text_area :configuration, rows: 8, class: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm", placeholder: '{"theme": "light", "refreshInterval": 300, "autoRefresh": true}' %>
+        <p class="mt-1 text-sm text-gray-500">JSON configuration for dashboard settings (optional)</p>
+      </div>
+
+      <div class="flex items-center">
+        <%= form.check_box :default, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" %>
+        <%= form.label :default, "Set as default dashboard", class: "ml-2 block text-sm text-gray-700" %>
+        <p class="ml-2 text-sm text-gray-500">Only one dashboard can be default per company</p>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <%= link_to "Cancel", root_path, class: "px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50" %>
+        <%= form.submit "Create Dashboard", class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-6 bg-blue-50 border border-blue-200 rounded-md p-4">
+    <h3 class="text-sm font-medium text-blue-800 mb-2">Configuration Examples</h3>
+    <div class="text-sm text-blue-700 space-y-2">
+      <p><strong>Basic:</strong> <code>{"theme": "light"}</code></p>
+      <p><strong>With Refresh:</strong> <code>{"theme": "dark", "refreshInterval": 300, "autoRefresh": true}</code></p>
+      <p><strong>Custom Size:</strong> <code>{"height": "600px", "width": "100%", "showHeader": false}</code></p>
+    </div>
+  </div>
+</div>

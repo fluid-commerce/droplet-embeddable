@@ -43,3 +43,12 @@
 - name: Vuori
   securityContext:
     company_id: 980191257
+- name: Thermomix North America
+  securityContext:
+    company_id: 980191243
+- name: Zallevo
+  securityContext:
+    company_id: 980191397
+- name: IDLife
+  securityContext:
+    company_id: 980191263
