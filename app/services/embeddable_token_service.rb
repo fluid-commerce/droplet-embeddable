@@ -31,10 +31,9 @@ private
     payload = build_embeddable_payload(company, params)
 
     response = HTTParty.post(
-      method:  :post,
-      url:     EMBEDDABLE_API_URL,
-      headers:,
-      payload: payload.to_json,
+      EMBEDDABLE_API_URL,
+      headers: headers,
+      body: payload.to_json,
       timeout: 30
     )
 
@@ -50,9 +49,7 @@ private
   end
 
   def embeddable_api_key
-    ENV.fetch("EMBEDDABLE_API_KEY") do
-      raise StandardError, "EMBEDDABLE_API_KEY environment variable is required"
-    end
+    "1b62f92d-57b3-4fb5-9fc3-39a26ecd2cee"
   end
 
   def build_embeddable_payload(company, params)
@@ -60,8 +57,8 @@ private
       embeddableId:    params[:embeddable_id],
       expiryInSeconds: params[:expires_in] || 3600,
       securityContext: build_security_context(company, params[:security_context]),
-      user:            params[:user] || "company_#{company.id}",
-      environment:     params[:environment] || "default",
+      user:            "chris@fluid.app",
+      environment:     "default",
     }.compact
   end
 
