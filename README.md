@@ -15,9 +15,11 @@ Documentation can be found in the [project's GitHub page](https://fluid-commerce
 - Google Cloud Compute Engine (jobs console)
 - Artifact Registry (Docker)
 
-web: Google Cloud Run name `fluid-droplet-NAME`
+web: Google Cloud Run name `fluid-droplet-embeddable`
 
-jobs console: Google Cloud Compute Engine name `fluid-droplet-NAME-jobs-console`
+job migration: Google Cloud Run Job name `fluid-droplet-embeddable-migrations`
+
+jobs console: Google Cloud Compute Engine name `fluid-droplet-embeddable-jobs-console`
 
 ### Deploy to google cloud
 
@@ -30,6 +32,17 @@ or run the following command to deploy to google cloud
 
 Add environment variables to google cloud `add-update-env-gcloud.sh` and run the following command to add environment variables to google cloud
 `sh add-update-env-gcloud.sh`
+
+### Rails console
+console is accessible through the compute engine instance `fluid-droplet-embeddable-jobs-console`  
+Access from ssh with docker:
+```bash
+docker exec -it $(docker ps -q | head -n 1) bash
+```
+and then:
+```bash
+bin/rails c
+```
 
 ### Technology Stack
 
@@ -46,7 +59,8 @@ Add environment variables to google cloud `add-update-env-gcloud.sh` and run the
 
 ### Running locally
 
-Install dependencies with `bundle install` and `yarn install`
+Install dependencies with `bundle install` and `yarn install`  
+Install dependencies embeddable front with `npm run install:embeddable`  
 and install foreman with `gem install foreman`  
 Just the rails server (port 3000)<br>
 `foreman start -f Procfile.dev`

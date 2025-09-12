@@ -1,6 +1,6 @@
 
 # main app name or workdir defined in Dockerfile
-APPLICATION_NAME=fluid-droplet-NAME
+APPLICATION_NAME=fluid-droplet-embeddable
 #service as defined in docker compose
 SERVICE_NAME=web
 SERVICE_TEST_NAME=test
@@ -11,7 +11,7 @@ SERVICE_TEST_NAME=test
 LOCAL_COMPOSE=docker/compose.yml
 
 # Database volume
-DB_NAME_VOLUME=postgres_
+DB_NAME_VOLUME=postgres_db
 
 help:
 	@echo ''
@@ -77,6 +77,9 @@ bundle:
 yarn:
 	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) yarn install
 
+install-embeddable:
+	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) npm run install:embeddable
+
 console:
 	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) rails console
 
@@ -113,5 +116,6 @@ install:
 	@make build
 	@make bundle
 	@make yarn
+	@make install-embeddable
 	@make db-prepare
 	@make stop
