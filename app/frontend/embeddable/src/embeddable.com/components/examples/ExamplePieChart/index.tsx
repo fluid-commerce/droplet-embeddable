@@ -48,7 +48,7 @@ const COLORS = [
   '#FFD37A',
 ];
 
-const chartOptions = (showLegend) => ({
+const chartOptions = (showLegend: boolean) => ({
   responsive: true,
   maintainAspectRatio: false,
   cutout: '45%',
@@ -59,7 +59,7 @@ const chartOptions = (showLegend) => ({
   },
 });
 
-const chartData = (labels, counts) => {
+const chartData = (labels: string[], counts: number[]) => {
   return {
     labels,
     datasets: [
@@ -93,10 +93,10 @@ export default (props: Props) => {
   }
 
   // Chart.js pie expects labels like so: ['US', 'UK', 'Germany']
-  const labels = data?.map((d) => d[slice.name]);
+  const labels = data?.map((d) => d[slice.name]) || [];
 
   // Chart.js pie expects counts like so: [23, 10, 5]
-  const counts = data?.map((d) => d[metric.name]);
+  const counts = data?.map((d) => d[metric.name]) || [];
 
   return (
     <>

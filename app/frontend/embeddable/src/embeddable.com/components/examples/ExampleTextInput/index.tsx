@@ -21,7 +21,7 @@ export default (props: Props) => {
   const { label, onChange } = props;
   const [value, setValue] = useState('');
 
-  const handleChange = (newValue) => {
+  const handleChange = (newValue: string) => {
     setValue(newValue);
     if (timeout) {
       clearTimeout(timeout);

@@ -31,10 +31,9 @@ private
     payload = build_embeddable_payload(company, params)
 
     response = HTTParty.post(
-      method:  :post,
-      url:     EMBEDDABLE_API_URL,
-      headers:,
-      payload: payload.to_json,
+      EMBEDDABLE_API_URL,
+      headers: headers,
+      body: payload.to_json,
       timeout: 30
     )
 
@@ -60,8 +59,8 @@ private
       embeddableId:    params[:embeddable_id],
       expiryInSeconds: params[:expires_in] || 3600,
       securityContext: build_security_context(company, params[:security_context]),
-      user:            params[:user] || "company_#{company.id}",
-      environment:     params[:environment] || "default",
+      user:            ENV["EMBEDDABLE_USER"],
+      environment:     ENV["EMBEDDABLE_ENVIRONMENT"],
     }.compact
   end
 
