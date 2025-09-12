@@ -121,10 +121,6 @@ variable "cloud_run_app_name" {
   type        = string
 }
 
-variable "vpc_connector_cloud_run" {
-  description = "VPC connector"
-  type        = string
-}
 
 variable "cloud_sql_instances_cloud_run" {
   description = "List of Cloud SQL instances"
