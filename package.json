@@ -18,7 +18,9 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "install:embeddable": "cd app/frontend/embeddable && npm install",
+    "postinstall": "npm run install:embeddable"
   },
   "packageManager": "yarn@4.7.0",
   "dependencies": {
