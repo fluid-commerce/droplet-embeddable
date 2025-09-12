@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class EmbeddableController < ApplicationController
-  # before_action :store_dri_in_session, only: [ :new ]
-  # before_action :find_company_by_dri
+  before_action :store_dri_in_session, only: [ :show ]
+  before_action :find_company_by_dri, only: [ :show ]
 
   # GET /embeddable/new
   def new
