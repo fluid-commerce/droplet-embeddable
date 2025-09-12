@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: droplet_template_development
+  database: droplet_template_development_2
 
 test:
   <<: *default
