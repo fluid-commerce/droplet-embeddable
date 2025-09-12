@@ -77,6 +77,9 @@ bundle:
 yarn:
 	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) yarn install
 
+install-embeddable:
+	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) npm run install:embeddable
+
 console:
 	@docker compose -f $(LOCAL_COMPOSE) run --rm $(SERVICE_NAME) rails console
 
@@ -113,5 +116,6 @@ install:
 	@make build
 	@make bundle
 	@make yarn
+	@make install-embeddable
 	@make db-prepare
 	@make stop
