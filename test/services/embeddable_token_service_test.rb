@@ -68,7 +68,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
       embeddableId: "test-embeddable-123",
       expiryInSeconds: 7200,
       securityContext: {
-        companyId: @company.id,
+        company_id: @company.id,
         companyName: @company.name,
         role: "admin",
       },
@@ -88,7 +88,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
       embeddableId: "default-embeddable",
       expiryInSeconds: 3600,
       securityContext: {
-        companyId: @company.id,
+        company_id: @company.id,
         companyName: @company.name,
       },
       user: "company_#{@company.id}",
@@ -105,7 +105,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     security_context = @service.send(:build_security_context, @company, custom_context)
 
     expected_context = {
-      companyId: @company.id,
+      company_id: @company.id,
       companyName: @company.name,
       role: "user",
       permissions: %w[read write],
@@ -118,7 +118,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     security_context = @service.send(:build_security_context, @company)
 
     expected_context = {
-      companyId: @company.id,
+      company_id: @company.id,
       companyName: @company.name,
     }
 
