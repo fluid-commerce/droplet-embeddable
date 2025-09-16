@@ -7,6 +7,10 @@ development:
   <<: *default
   database: droplet_template_development
 
+test:
+  <<: *default
+  database: droplet_template_test
+
 production:
   primary:
     <<: *default
