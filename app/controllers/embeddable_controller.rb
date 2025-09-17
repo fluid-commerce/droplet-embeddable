@@ -31,23 +31,17 @@ class EmbeddableController < ApplicationController
 private
 
   def generate_embeddable_token
-    token_service = EmbeddableTokenService.new(current_company, token_params)
+    token_service = EmbeddableTokenService.new(@company, token_params)
     token_service.generate_token
   rescue => e
     Rails.logger.error "Failed to generate embeddable token: #{e.message}"
     nil
   end
 
-  def current_company
-    @current_company ||= Company.active.first
-  end
-
   def token_params
     {
       embeddable_id: @embeddable.embeddable_id,
-      expires_in:    1.hour,
-      user:          current_user,
-      environment:   Rails.env,
+      expires_in:    1.hour
     }
   end
 
