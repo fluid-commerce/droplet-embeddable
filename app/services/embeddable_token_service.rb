@@ -66,7 +66,7 @@ private
 
   def build_security_context(company, custom_context = {})
     base_context = {
-      company_id:  company.id,
+      company_id:  company.fluid_company_id,
       companyName: company.name,
     }
 

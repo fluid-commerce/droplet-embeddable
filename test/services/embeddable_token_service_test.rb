@@ -6,14 +6,13 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     @params = {
       embeddable_id: "test-embeddable-123",
       expires_in: 7200,
-      security_context: { role: "admin" },
-      user: "test_user",
-      environment: "production",
+      security_context: {},
     }
     @service = EmbeddableTokenService.new(@company, @params)
 
-    # Set a test API key for all tests
     ENV["EMBEDDABLE_API_KEY"] = "test-api-key-123"
+    ENV["EMBEDDABLE_USER"]="asd@asd.app"
+    ENV["EMBEDDABLE_ENVIRONMENT"]="default"
   end
 
   test "generates token successfully" do
@@ -68,12 +67,11 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
       embeddableId: "test-embeddable-123",
       expiryInSeconds: 7200,
       securityContext: {
-        company_id: @company.id,
+        company_id: @company.fluid_company_id,
         companyName: @company.name,
-        role: "admin",
       },
-      user: "test_user",
-      environment: "production",
+      user: "asd@asd.app",
+      environment: "default",
     }
 
     payload = @service.send(:build_embeddable_payload, @company, @params)
@@ -88,10 +86,10 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
       embeddableId: "default-embeddable",
       expiryInSeconds: 3600,
       securityContext: {
-        company_id: @company.id,
+        company_id: @company.fluid_company_id,
         companyName: @company.name,
       },
-      user: "company_#{@company.id}",
+      user: "asd@asd.app",
       environment: "default",
     }
 
@@ -105,7 +103,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     security_context = @service.send(:build_security_context, @company, custom_context)
 
     expected_context = {
-      company_id: @company.id,
+      company_id: @company.fluid_company_id,
       companyName: @company.name,
       role: "user",
       permissions: %w[read write],
@@ -118,7 +116,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     security_context = @service.send(:build_security_context, @company)
 
     expected_context = {
-      company_id: @company.id,
+      company_id: @company.fluid_company_id,
       companyName: @company.name,
     }
 
