@@ -41,7 +41,7 @@ private
   def token_params
     {
       embeddable_id: @embeddable.embeddable_id,
-      expires_in:    1.hour
+      expires_in:    1.hour,
     }
   end
 

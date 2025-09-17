@@ -6,7 +6,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
     @params = {
       embeddable_id: "test-embeddable-123",
       expires_in: 7200,
-      security_context: {}
+      security_context: {},
     }
     @service = EmbeddableTokenService.new(@company, @params)
 
@@ -68,7 +68,7 @@ class EmbeddableTokenServiceTest < ActiveSupport::TestCase
       expiryInSeconds: 7200,
       securityContext: {
         company_id: @company.fluid_company_id,
-        companyName: @company.name
+        companyName: @company.name,
       },
       user: "asd@asd.app",
       environment: "default",
