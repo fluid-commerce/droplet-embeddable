@@ -12,11 +12,12 @@
   </div>
 
   <div class="bg-white rounded-lg shadow-lg p-6">
-    <div id="embeddable-container" class="min-h-[600px]">
+    <div id="embeddable-container" class="w-full">
       <em-beddable
         id="dashboard-embed"
         token="<%= @embeddable_token["token"] %>"
-        style="width: 100%; height: 600px;"
+        style="width: 100%; min-height: 600px;"
+        class="embeddable-responsive"
       ></em-beddable>
     </div>
   </div>
@@ -29,16 +30,36 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const embeddableElement = document.getElementById('dashboard-embed');
+    const container = document.getElementById('embeddable-container');
 
-    if (embeddableElement) {
-      // Add any custom event listeners or configuration here
+    if (embeddableElement && container) {
       embeddableElement.addEventListener('loaded', function(event) {
         console.log('Embeddable dashboard loaded successfully');
+
+        setTimeout(() => {
+          const rect = embeddableElement.getBoundingClientRect();
+          console.log('Embeddable final dimensions:', {
+            width: rect.width,
+            height: rect.height,
+            scrollHeight: embeddableElement.scrollHeight
+          });
+        }, 500);
       });
 
       embeddableElement.addEventListener('error', function(event) {
         console.error('Error loading Embeddable dashboard:', event.detail);
       });
+
+      const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          console.log('Container size changed:', {
+            width: entry.contentRect.width,
+            height: entry.contentRect.height
+          });
+        }
+      });
+
+      observer.observe(container);
     }
   });
 </script>
