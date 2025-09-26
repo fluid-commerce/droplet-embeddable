@@ -19,9 +19,6 @@ export default defineConfig({
    */
   componentLibraries: ['@embeddable.com/vanilla-components'],
 
-
-
-
   //For internal use only (this helps us help you debug issues)
   //
   // previewBaseUrl: 'https://app.dev.embeddable.com',
