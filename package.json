@@ -19,7 +19,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "install:embeddable": "cd app/frontend/embeddable && npm install"
+    "install:embeddable": "cd app/frontend/embeddable && npm install",
+    "build:embeddable": "cd app/frontend/embeddable && npm run embeddable:build"
   },
   "packageManager": "yarn@4.7.0",
   "dependencies": {
