@@ -155,8 +155,17 @@ jobs:
       - name: Install JavaScript dependencies
         run: yarn install --immutable
 
+      - name: Install Embeddable dependencies
+        run: yarn install:embeddable
+
       - name: Build assets
         run: yarn build
+
+      - name: Build Embeddable assets
+        run: yarn build:embeddable
+
+      - name: Build test assets
+        run: bin/vite build --clear --mode=test
 
       - name: Run JavaScript tests
         run: yarn test

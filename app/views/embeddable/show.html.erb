@@ -5,40 +5,140 @@
   </script>
 <% end %>
 
-<div class="container mx-auto px-4 py-8">
-  <div class="mb-6">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
-    <p class="text-gray-600">Embedded analytics dashboard powered by Embeddable</p>
-  </div>
-
-  <div class="bg-white rounded-lg shadow-lg p-6">
-    <div id="embeddable-container" class="min-h-[600px]">
-      <em-beddable
-        id="dashboard-embed"
-        token="<%= @embeddable_token["token"] %>"
-        style="width: 100%; height: 600px;"
-      ></em-beddable>
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+  <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <div class="mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-900 mb-2">
+            <%= @embeddable.name.present? ? @embeddable.name : "Analytics Dashboard" %>
+          </h1>
+          <p class="text-lg text-gray-600">
+            Embedded analytics dashboard powered by Embeddable
+          </p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+          <span class="text-sm text-gray-500">Live</span>
+        </div>
+      </div>
+      
+      <!-- Droplet Description -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div class="flex items-start space-x-4">
+          <div class="flex-shrink-0">
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">What is this Droplet?</h3>
+            <p class="text-gray-600 leading-relaxed">
+              This droplet provides real-time analytics and business intelligence dashboards. 
+              It connects to your data sources and displays key metrics, trends, and insights 
+              in an interactive, embeddable format. Perfect for monitoring business performance, 
+              tracking KPIs, and making data-driven decisions.
+            </p>
+            <% if @embeddable.description.present? %>
+              <div class="mt-3 p-3 bg-gray-50 rounded-lg">
+                <p class="text-sm text-gray-700"><%= @embeddable.description %></p>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <div class="mt-6 text-sm text-gray-500">
-    <p>Dashboard loaded via Embeddable web component</p>
+    <div class="bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <span class="text-white font-bold text-lg">📊</span>
+            </div>
+            <h2 class="text-xl font-semibold text-white">Interactive Dashboard</h2>
+          </div>
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-green-300 rounded-full animate-pulse"></div>
+            <span class="text-sm text-blue-100">Real-time data</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6">
+        <div id="embeddable-container" class="w-full">
+          <em-beddable
+            id="dashboard-embed"
+            token="<%= @embeddable_token["token"] %>"
+            style="width: 100%; min-height: 600px;"
+            class="embeddable-responsive"
+          ></em-beddable>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-8 text-center">
+      <div class="inline-flex items-center space-x-2 text-sm text-gray-500">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>Dashboard powered by Embeddable • Last updated: <%= Time.current.strftime("%B %d, %Y at %I:%M %p") %></span>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const embeddableElement = document.getElementById('dashboard-embed');
+    const container = document.getElementById('embeddable-container');
 
-    if (embeddableElement) {
-      // Add any custom event listeners or configuration here
+    if (embeddableElement && container) {
+      const startTime = performance.now();
+
       embeddableElement.addEventListener('loaded', function(event) {
-        console.log('Embeddable dashboard loaded successfully');
+        const loadTime = performance.now() - startTime;
+        console.log(`Embeddable dashboard loaded successfully in ${loadTime.toFixed(2)}ms`);
+
+        const liveIndicator = document.querySelector('.animate-pulse');
+        if (liveIndicator) {
+          liveIndicator.classList.remove('animate-pulse');
+          liveIndicator.classList.add('bg-green-500');
+        }
+
+        setTimeout(() => {
+          const rect = embeddableElement.getBoundingClientRect();
+          console.log('Embeddable final dimensions:', {
+            width: rect.width,
+            height: rect.height,
+            scrollHeight: embeddableElement.scrollHeight,
+            loadTime: loadTime
+          });
+        }, 500);
       });
 
       embeddableElement.addEventListener('error', function(event) {
         console.error('Error loading Embeddable dashboard:', event.detail);
+
+        const liveIndicator = document.querySelector('.animate-pulse');
+        if (liveIndicator) {
+          liveIndicator.classList.remove('animate-pulse', 'bg-green-400');
+          liveIndicator.classList.add('bg-red-500');
+        }
       });
+
+      const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+          console.log('Container size changed:', {
+            width: entry.contentRect.width,
+            height: entry.contentRect.height
+          });
+        }
+      });
+
+      observer.observe(container);
     }
   });
 </script>
