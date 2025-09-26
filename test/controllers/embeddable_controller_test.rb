@@ -50,15 +50,27 @@ class EmbeddableControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get show without authentication" do
-    get embeddable_path("test-dashboard-id")
+    get embeddable_path("test-dashboard-id"), params: { dri: "acme-installation-uuid-123" }
     assert_response :success
     assert_select "em-beddable"
   end
 
   test "should get show when authenticated" do
     sign_in @user
-    get embeddable_path("test-dashboard-id")
+    get embeddable_path("test-dashboard-id"), params: { dri: "acme-installation-uuid-123" }
     assert_response :success
     assert_select "em-beddable"
+  end
+
+  test "should return error when DRI parameter is missing" do
+    get embeddable_path("test-dashboard-id")
+    assert_response :bad_request
+    assert_equal "DRI parameter is required", JSON.parse(response.body)["error"]
+  end
+
+  test "should return error when company is not found with DRI" do
+    get embeddable_path("test-dashboard-id"), params: { dri: "non-existent-dri" }
+    assert_response :not_found
+    assert_equal "Company not found with DRI: non-existent-dri", JSON.parse(response.body)["error"]
   end
 end
