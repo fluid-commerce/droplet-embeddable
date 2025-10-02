@@ -31,7 +31,6 @@ namespace :embeddable do
       puts "[#{index + 1}/#{total_companies}] Processing company: #{company.name} (ID: #{company.id})"
 
       begin
-        # Configurar parámetros para el cache refresh
         cache_refresh_params = {
           refresh_interval: "1 hour",
           embeddables: [
