@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 class EmbeddableCacheRefreshService
-  EMBEDDABLE_CACHE_REFRESH_URL = "https://api.us.embeddable.com/api/v1/caching/refresh-contexts".freeze
+  EMBEDDABLE_CACHE_REFRESH_URL = "https://api.us.embeddable.com/api/v1/caching/refresh-contexts"
+  EMBEDDABLE_HEADERS = {
+    "Content-Type"  => "application/json",
+    "Accept"        => "application/json",
+    "Authorization" => "Bearer #{ENV.fetch('EMBEDDABLE_API_KEY')}",
+  }
 
   attr_accessor :params
 
@@ -31,12 +36,11 @@ class EmbeddableCacheRefreshService
 private
 
   def request_cache_refresh(params)
-    headers = embeddable_headers
     payload = build_refresh_payload(params)
 
     response = HTTParty.post(
       EMBEDDABLE_CACHE_REFRESH_URL,
-      headers: headers,
+      headers: EMBEDDABLE_HEADERS,
       body: payload.to_json,
       timeout: 30
     )
@@ -45,20 +49,6 @@ private
       { success: true, status: response.code }
     else
       JSON.parse(response.body)
-    end
-  end
-
-  def embeddable_headers
-    {
-      "Content-Type"  => "application/json",
-      "Accept"        => "application/json",
-      "Authorization" => "Bearer #{embeddable_api_key}",
-    }
-  end
-
-  def embeddable_api_key
-    ENV.fetch("EMBEDDABLE_API_KEY") do
-      raise StandardError, "EMBEDDABLE_API_KEY environment variable is required"
     end
   end
 
