@@ -14,7 +14,8 @@
     "embeddable:dev": "cross-env NODE_OPTIONS='--max-old-space-size=4096' embeddable dev",
     "embeddable:login": "embeddable login",
     "embeddable:push": "embeddable push",
-    "embeddable:upgrade": "npx npm-check-updates -u \"/embeddable/\""
+    "embeddable:upgrade": "npx npm-check-updates -u \"/embeddable/\"",
+    "script:connection-read": "node src/embeddable.com/scripts/connection-read.cjs"
   },
   "dependencies": {
     "@embeddable.com/vanilla-components": "^1.0.15",

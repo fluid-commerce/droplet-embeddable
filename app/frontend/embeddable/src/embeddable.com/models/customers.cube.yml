@@ -58,5 +58,10 @@ cubes:
         relationship: one_to_many
 
     pre_aggregations:
-    # Pre-aggregation definitions go here.
-    # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+      - name: customers_by_company_daily
+        dimensions:
+          - CUBE.company_id
+        measures:
+          - CUBE.count
+        time_dimension: CUBE.created_at
+        granularity: day

@@ -50,3 +50,12 @@ cubes:
       - name: currencies
         sql: "{CUBE}.currency_id = {currencies}.id"
         relationship: many_to_one
+
+    pre_aggregations:
+      - name: carts_enrollment_details
+        dimensions:
+          - CUBE.title
+          - carts.first_name
+          - carts.last_name
+          - carts.amount_total
+          - carts.type

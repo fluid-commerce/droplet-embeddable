@@ -186,5 +186,32 @@ cubes:
         relationship: one_to_one
 
     pre_aggregations:
-      # Pre-aggregation definitions go here.
-      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
+      - name: orders_by_company_daily
+        dimensions:
+          - CUBE.company_id
+        measures:
+          - CUBE.count
+        time_dimension: CUBE.created_at
+        granularity: day
+      - name: orders_by_time
+        measures:
+          - CUBE.total_amount
+        time_dimension: CUBE.created_at
+        granularity: day
+        dimensions:
+          - CUBE.company_id
+      - name: orders_count_by_month
+        measures:
+          - CUBE.count
+        time_dimension: CUBE.created_at
+        granularity: month
+        dimensions:
+          - CUBE.company_id
+      - name: orders_details
+        dimensions:
+          - CUBE.customer_full_name
+          - CUBE.amount
+          - CUBE.order_type
+          - CUBE.status
+          - CUBE.created_at
+          - CUBE.company_id
