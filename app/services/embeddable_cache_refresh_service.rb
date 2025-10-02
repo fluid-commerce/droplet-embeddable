@@ -2,11 +2,13 @@
 
 class EmbeddableCacheRefreshService
   EMBEDDABLE_CACHE_REFRESH_URL = "https://api.us.embeddable.com/api/v1/caching/refresh-contexts"
-  EMBEDDABLE_HEADERS = {
-    "Content-Type"  => "application/json",
-    "Accept"        => "application/json",
-    "Authorization" => "Bearer #{ENV.fetch('EMBEDDABLE_API_KEY')}",
-  }
+  def self.embeddable_headers
+    @embeddable_headers ||= {
+      "Content-Type"  => "application/json",
+      "Accept"        => "application/json",
+      "Authorization" => "Bearer #{ENV.fetch('EMBEDDABLE_API_KEY')}",
+    }.freeze
+  end
 
   attr_accessor :params
 
@@ -40,7 +42,7 @@ private
 
     response = HTTParty.post(
       EMBEDDABLE_CACHE_REFRESH_URL,
-      headers: EMBEDDABLE_HEADERS,
+      headers: self.class.embeddable_headers,
       body: payload.to_json,
       timeout: 30
     )
