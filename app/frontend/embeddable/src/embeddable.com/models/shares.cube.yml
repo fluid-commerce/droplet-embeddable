@@ -44,3 +44,13 @@ cubes:
       - name: company_users
         sql: "{CUBE}.user_company_id = {company_users}.id"
         relationship: many_to_one
+
+    pre_aggregations:
+      - name: shares_monthly_stats
+        measures:
+          - CUBE.total_views
+          - CUBE.total_shares
+        time_dimension: share_pages.created_at
+        granularity: month
+        dimensions:
+          - CUBE.company_id

@@ -41,3 +41,20 @@ cubes:
       - name: companies
         sql: "{CUBE}.company_id = {companies}.id"
         relationship: many_to_one
+
+    pre_aggregations:
+      - name: user_companies_by_company_and_role_daily
+        dimensions:
+          - CUBE.company_id
+          - CUBE.roles
+        measures:
+          - CUBE.count
+        time_dimension: CUBE.created_at
+        granularity: day
+      - name: user_companies_count_by_shares
+        measures:
+          - CUBE.count
+        time_dimension: shares.created_at
+        granularity: month
+        dimensions:
+          - CUBE.company_id

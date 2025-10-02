@@ -156,3 +156,10 @@ cubes:
       - name: integrations
         sql: "{CUBE}.integration_id = {integrations}.id"
         relationship: many_to_one
+
+    pre_aggregations:
+      - name: contacts_count_by_time
+        measures:
+          - CUBE.count
+        time_dimension: CUBE.created_at
+        granularity: month
