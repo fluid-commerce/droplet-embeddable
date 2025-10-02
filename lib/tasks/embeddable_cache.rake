@@ -2,9 +2,9 @@
 
 namespace :embeddable do
   desc "Refresh cache for all companies using EmbeddableCacheRefreshService"
-  task :refresh_cache, [:embeddable_id] => :environment do |_task, args|
+  task :refresh_cache, %i[embeddable_id] => :environment do |_task, args|
     embeddable_id = args[:embeddable_id]
-    
+
     if embeddable_id.blank?
       puts "Error: embeddable_id parameter is required"
       puts "Usage: rake embeddable:refresh_cache[your-embeddable-id]"
@@ -29,7 +29,7 @@ namespace :embeddable do
 
     companies.find_each.with_index do |company, index|
       puts "[#{index + 1}/#{total_companies}] Processing company: #{company.name} (ID: #{company.id})"
-      
+
       begin
         # Configurar parámetros para el cache refresh
         cache_refresh_params = {
@@ -37,20 +37,20 @@ namespace :embeddable do
           embeddables: [
             {
               embeddable_id: embeddable_id,
-              saved_versions: ["production"]
-            }
+              saved_versions: [ "production" ],
+            },
           ],
           scheduled_refresh_contexts: [
             {
               security_context: {
                 company_id: company.fluid_company_id,
-                company_name: company.name
+                company_name: company.name,
               },
               environment: "default",
-              timezones: ["UTC"]
-            }
+              timezones: [ "UTC" ],
+            },
           ],
-          roles: ["default"]
+          roles: [ "default" ],
         }
 
         service = EmbeddableCacheRefreshService.new(cache_refresh_params)
@@ -80,7 +80,7 @@ namespace :embeddable do
     puts "Total companies processed: #{total_companies}"
     puts "Successful refreshes: #{successful_refreshes}"
     puts "Failed refreshes: #{failed_refreshes}"
-    
+
     if failed_refreshes > 0
       puts "⚠️  Some refreshes failed. Check the logs for more details."
       exit 1
@@ -90,10 +90,10 @@ namespace :embeddable do
   end
 
   desc "Refresh cache for a specific company"
-  task :refresh_cache_for_company, [:embeddable_id, :company_id] => :environment do |_task, args|
+  task :refresh_cache_for_company, %i[embeddable_id company_id] => :environment do |_task, args|
     embeddable_id = args[:embeddable_id]
     company_id = args[:company_id]
-    
+
     if embeddable_id.blank? || company_id.blank?
       puts "Error: Both embeddable_id and company_id parameters are required"
       puts "Usage: rake embeddable:refresh_cache_for_company[your-embeddable-id,company-id]"
@@ -101,7 +101,7 @@ namespace :embeddable do
     end
 
     company = Company.find_by(id: company_id)
-    
+
     unless company
       puts "Error: Company with ID #{company_id} not found"
       exit 1
@@ -117,20 +117,20 @@ namespace :embeddable do
         embeddables: [
           {
             embeddable_id: embeddable_id,
-            saved_versions: ["production"]
-          }
+            saved_versions: [ "production" ],
+          },
         ],
         scheduled_refresh_contexts: [
           {
             security_context: {
               company_id: company.fluid_company_id,
-              company_name: company.name
+              company_name: company.name,
             },
             environment: "default",
-            timezones: ["UTC"]
-          }
+            timezones: [ "UTC" ],
+          },
         ],
-        roles: ["default"]
+        roles: [ "default" ],
       }
 
       service = EmbeddableCacheRefreshService.new(cache_refresh_params)

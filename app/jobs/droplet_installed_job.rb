@@ -84,7 +84,7 @@ private
       refresh_interval: "1 hour",
       embeddables: build_embeddables_for_cache_refresh,
       scheduled_refresh_contexts: build_scheduled_refresh_contexts_for_company(company),
-      roles: ["default"]
+      roles: [ "default" ],
     }
 
     service = EmbeddableCacheRefreshService.new(cache_refresh_params)
@@ -109,8 +109,8 @@ private
     [
       {
         embeddable_id: Embeddable.first.embeddable_id,
-        saved_versions: ["production"]
-      }
+        saved_versions: [ "production" ],
+      },
     ]
   end
 
@@ -118,11 +118,11 @@ private
     [
       {
         security_context: {
-          company_id: company.fluid_company_id
+          company_id: company.fluid_company_id,
         },
         environment: "default",
-        timezones: ["UTC"]
-      }
+        timezones: [ "UTC" ],
+      },
     ]
   end
 end

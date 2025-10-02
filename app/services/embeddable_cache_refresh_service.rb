@@ -64,10 +64,10 @@ private
 
   def build_refresh_payload(params)
     {
-      refreshInterval: params[:refresh_interval] || "12 hours",
+      refreshInterval: params[:refresh_interval] || "1 hour",
       embeddables: build_embeddables(params[:embeddables]),
       scheduledRefreshContexts: build_scheduled_refresh_contexts(params[:scheduled_refresh_contexts]),
-      roles: params[:roles] || ["default"]
+      roles: params[:roles] || [ "default" ],
     }.compact
   end
 
@@ -77,7 +77,7 @@ private
     embeddables_params.map do |embeddable|
       {
         embeddableId: embeddable[:embeddable_id],
-        savedVersions: embeddable[:saved_versions] || ["production"]
+        savedVersions: embeddable[:saved_versions] || [ "production" ],
       }
     end
   end
@@ -90,11 +90,11 @@ private
       if security_context[:company_id]
         security_context[:company_id] = security_context[:company_id].to_s
       end
-      
+
       {
         securityContext: build_security_context(security_context),
         environment: context[:environment] || "default",
-        timezones: context[:timezones] || ["UTC"]
+        timezones: context[:timezones] || [ "UTC" ],
       }
     end
   end
@@ -104,10 +104,6 @@ private
 
     if custom_context[:company_id]
       base_context[:company_id] = custom_context[:company_id].to_s
-    end
-
-    if custom_context[:company_name]
-      base_context[:companyName] = custom_context[:company_name]
     end
 
     base_context.merge(custom_context || {})
