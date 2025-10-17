@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_05_150240) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_15_204146) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_150240) do
     t.boolean "default", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
+    t.index ["company_id"], name: "index_embeddables_on_company_id"
     t.index ["configuration"], name: "index_embeddables_on_configuration", using: :gin
     t.index ["embeddable_id"], name: "index_embeddables_on_embeddable_id", unique: true
     t.index ["name"], name: "index_embeddables_on_name"
@@ -83,6 +85,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_150240) do
     t.index ["company_id"], name: "index_integration_settings_on_company_id"
   end
 
+  create_table "rates", force: :cascade do |t|
+    t.bigint "shipping_option_id", null: false
+    t.string "country", null: false
+    t.string "region"
+    t.decimal "min_range_lbs", precision: 8, scale: 2, null: false
+    t.decimal "max_range_lbs", precision: 8, scale: 2, null: false
+    t.decimal "flat_rate", precision: 10, scale: 2, null: false
+    t.decimal "min_charge", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country", "region"], name: "index_rates_on_country_and_region"
+    t.index ["shipping_option_id", "country", "region"], name: "index_rates_on_shipping_option_and_location"
+    t.index ["shipping_option_id"], name: "index_rates_on_shipping_option_id"
+  end
+
   create_table "settings", force: :cascade do |t|
     t.string "name", null: false
     t.string "description"
@@ -91,6 +108,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_150240) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_settings_on_name", unique: true
+  end
+
+  create_table "shipping_options", force: :cascade do |t|
+    t.string "name"
+    t.integer "delivery_time"
+    t.decimal "starting_rate"
+    t.jsonb "countries"
+    t.string "status"
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_shipping_options_on_company_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -114,6 +143,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_05_150240) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "embeddables", "companies"
   add_foreign_key "events", "companies"
   add_foreign_key "integration_settings", "companies"
+  add_foreign_key "rates", "shipping_options"
+  add_foreign_key "shipping_options", "companies"
 end

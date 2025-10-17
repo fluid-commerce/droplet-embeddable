@@ -1,0 +1,129 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="mb-6">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Embeddable Dashboards</h1>
+        <p class="text-gray-600">Manage your embedded analytics dashboards</p>
+      </div>
+      <div>
+        <%= link_to "Create New Dashboard", new_embeddable_path, 
+            class: "px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  </div>
+
+  <% if @embeddables.any? %>
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Embeddable ID
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Company
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Default
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Created
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <% @embeddables.each do |embeddable| %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center gap-6">
+                    <div class="flex-shrink-0 h-10 w-10">
+                      <div class="h-10 w-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                        <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">
+                        <%= embeddable.name %>
+                      </div>
+                      <% if embeddable.description.present? %>
+                        <div class="text-sm text-gray-500 truncate max-w-xs">
+                          <%= embeddable.description %>
+                        </div>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900 font-mono">
+                    <%= embeddable.embeddable_id %>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if embeddable.company %>
+                    <div class="text-sm text-gray-900">
+                      <%= embeddable.company.name %>
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      <%= embeddable.company.fluid_shop %>
+                    </div>
+                  <% else %>
+                    <span class="text-sm text-gray-400 italic">No company</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <% if embeddable.default? %>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                      Default
+                    </span>
+                  <% else %>
+                    <span class="text-sm text-gray-400">-</span>
+                  <% end %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <%= embeddable.created_at.strftime("%b %d, %Y") %>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <div class="flex space-x-2">
+                    <%= link_to "View", embeddable_show_path(embeddable.embeddable_id), 
+                        class: "text-blue-600 hover:text-blue-900", target: "_blank" %>
+                    <%= link_to "Edit", edit_embeddable_path(embeddable.embeddable_id), 
+                        class: "text-indigo-600 hover:text-indigo-900" %>
+                    <%= button_to "Delete", "/embeddable/#{embeddable.embeddable_id}", 
+                        method: :delete,
+                        data: { 
+                          confirm: "Are you sure you want to delete '#{embeddable.name}'? This action cannot be undone."
+                        },
+                        class: "text-red-600 hover:text-red-900 bg-transparent border-none p-0 cursor-pointer" %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="mx-auto h-12 w-12 text-gray-400">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+      </div>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No dashboards</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating a new embeddable dashboard.</p>
+      <div class="mt-6">
+        <%= link_to "Create New Dashboard", new_embeddable_path, 
+            class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    </div>
+  <% end %>
+</div>
