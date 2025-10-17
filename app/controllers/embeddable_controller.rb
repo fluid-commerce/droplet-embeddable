@@ -1,51 +1,66 @@
 # frozen_string_literal: true
 
 class EmbeddableController < ApplicationController
-  before_action :store_dri_in_session, only: [ :show ]
-  before_action :find_company_by_dri, only: [ :show ]
+  http_basic_authenticate_with name: ENV.fetch("EMBEDDABLE_AUTH_USERNAME", "admin"),
+                               password: ENV.fetch("EMBEDDABLE_AUTH_PASSWORD", "password")
+
+  # GET /embeddable
+  def index
+    @embeddables = Embeddable.includes(:company).where.not(company_id: nil).order(:name)
+  end
 
   # GET /embeddable/new
   def new
     @embeddable = Embeddable.new
+    @companies = Company.active.order(:name)
   end
 
   # POST /embeddable
   def create
     @embeddable = Embeddable.new(embeddable_params)
+    @companies = Company.active.order(:name)
 
     if @embeddable.save
-      redirect_to embeddable_path(@embeddable.embeddable_id), notice: "Dashboard was successfully created."
+      redirect_to embeddables_path, notice: "Dashboard was successfully created."
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  # GET /embeddable/:embeddable_id
-  def show
-    @embeddable       = Embeddable.find_by!(embeddable_id: params[:embeddable_id])
-    @embeddable_token = generate_embeddable_token
+  # GET /embeddable/:embeddable_id/edit
+  def edit
+    @embeddable = Embeddable.find_by!(embeddable_id: params[:embeddable_id])
+    @companies = Company.active.order(:name)
   rescue ActiveRecord::RecordNotFound
-    redirect_to root_path, alert: "Dashboard not found."
+    redirect_to embeddables_path, alert: "Dashboard not found."
+  end
+
+  # PATCH/PUT /embeddable/:embeddable_id
+  def update
+    @embeddable = Embeddable.find_by!(embeddable_id: params[:embeddable_id])
+    @companies = Company.active.order(:name)
+
+    if @embeddable.update(embeddable_params)
+      redirect_to embeddables_path, notice: "Dashboard was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to embeddables_path, alert: "Dashboard not found."
+  end
+
+  # DELETE /embeddable/:embeddable_id
+  def destroy
+    @embeddable = Embeddable.find_by!(embeddable_id: params[:embeddable_id])
+    @embeddable.destroy
+    redirect_to embeddables_path, notice: "Dashboard was successfully deleted."
+  rescue ActiveRecord::RecordNotFound
+    redirect_to embeddables_path, alert: "Dashboard not found."
   end
 
 private
 
-  def generate_embeddable_token
-    token_service = EmbeddableTokenService.new(@company, token_params)
-    token_service.generate_token
-  rescue => e
-    Rails.logger.error "Failed to generate embeddable token: #{e.message}"
-    nil
-  end
-
-  def token_params
-    {
-      embeddable_id: @embeddable.embeddable_id,
-      expires_in:    1.hour,
-    }
-  end
-
   def embeddable_params
-    params.require(:embeddable).permit(:embeddable_id, :name, :description, :configuration, :default)
+    params.require(:embeddable).permit(:embeddable_id, :name, :description, :configuration, :default, :company_id)
   end
 end
